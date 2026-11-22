@@ -1,0 +1,12 @@
+A subquery is a SQL query written inside another SQL query. It is also called an inner query or nested query.
+
+Subqueries are used to retrieve data based on the result of another query.
+
+General syntax:
+SELECT column_name
+FROM table_name
+WHERE column_name operator
+      (SELECT column_name
+       FROM table_name
+       WHERE condition);
+
