@@ -1,0 +1,433 @@
+PL/SQL STUDY NOTES
+
+1. WHAT IS PL/SQL?
+
+PL/SQL stands for Procedural Language extension to SQL. It is Oracle’s
+procedural extension of SQL. It combines SQL statements with programming
+features such as variables, conditions, loops, procedures, functions and
+exception handling.
+
+SQL is mainly used to query and manipulate data. PL/SQL allows us to
+write a complete block of program logic that can execute in the Oracle
+database.
+
+2. STRUCTURE OF A PL/SQL BLOCK
+
+A PL/SQL block has three main sections:
+
+DECLARE – Optional: declare variables, constants and cursors BEGIN –
+Mandatory: executable statements EXCEPTION – Optional: handle errors
+END; /
+
+Example:
+
+DECLARE v_name VARCHAR2(30); BEGIN v_name := ‘Jiss’;
+DBMS_OUTPUT.PUT_LINE(‘Hello’ || v_name); END; /
+
+Explanation: - DECLARE: Defines variables and other declarations. It is
+optional. - BEGIN: Starts the executable section. It is mandatory. -
+EXCEPTION: Handles runtime errors. It is optional. - END: Marks the end
+of the block. - Slash (/): In tools such as SQL*Plus and SQL Developer
+scripts, it runs the block.
+
+3. PL/SQL VARIABLES
+
+A variable stores a value that can be used or changed while the block
+executes.
+
+Syntax: variable_name datatype [:= initial_value];
+
+Example:
+
+DECLARE v_age NUMBER := 22; v_name VARCHAR2(30) := ‘Jiss’; BEGIN
+DBMS_OUTPUT.PUT_LINE(v_name); DBMS_OUTPUT.PUT_LINE(v_age); END; /
+
+Common data types: - NUMBER : Stores numeric values. - VARCHAR2(n) :
+Stores variable-length character data. - CHAR(n) : Stores fixed-length
+character data. - DATE : Stores date and time values. - BOOLEAN : Stores
+TRUE, FALSE or NULL in PL/SQL.
+
+4. ASSIGNMENT OPERATOR
+
+The assignment operator in PL/SQL is :=
+
+Example: v_total := 100; v_name := ‘Alex’;
+
+The concatenation operator is ||.
+
+Example: DBMS_OUTPUT.PUT_LINE(‘Total =’ || v_total);
+
+5. DISPLAYING OUTPUT
+
+Use DBMS_OUTPUT.PUT_LINE to display output.
+
+Example:
+
+BEGIN DBMS_OUTPUT.PUT_LINE(‘Welcome to PL/SQL’); END; /
+
+In Oracle SQL Developer, enable the DBMS Output panel for the connection
+and turn on output if it is not already enabled.
+
+6. CONDITIONAL STATEMENTS
+
+A. IF statement
+
+Syntax: IF condition THEN statements; END IF;
+
+Example:
+
+DECLARE v_mark NUMBER := 75; BEGIN IF v_mark >= 50 THEN
+DBMS_OUTPUT.PUT_LINE(‘Pass’); END IF; END; /
+
+B. IF-ELSE statement
+
+Syntax: IF condition THEN statements; ELSE statements; END IF;
+
+Example:
+
+DECLARE v_num NUMBER := 8; BEGIN IF MOD(v_num, 2) = 0 THEN
+DBMS_OUTPUT.PUT_LINE(‘Even’); ELSE DBMS_OUTPUT.PUT_LINE(‘Odd’); END IF;
+END; /
+
+C. IF-ELSIF-ELSE statement
+
+Syntax: IF condition1 THEN statements; ELSIF condition2 THEN statements;
+ELSE statements; END IF;
+
+Example:
+
+DECLARE v_mark NUMBER := 82; BEGIN IF v_mark >= 90 THEN
+DBMS_OUTPUT.PUT_LINE(‘Grade A’); ELSIF v_mark >= 75 THEN
+DBMS_OUTPUT.PUT_LINE(‘Grade B’); ELSIF v_mark >= 50 THEN
+DBMS_OUTPUT.PUT_LINE(‘Grade C’); ELSE DBMS_OUTPUT.PUT_LINE(‘Fail’); END
+IF; END; /
+
+7. LOOPS IN PL/SQL
+
+A. SIMPLE LOOP
+
+Repeats statements until an EXIT condition is met.
+
+Syntax: LOOP statements; EXIT WHEN condition; END LOOP;
+
+Example:
+
+DECLARE i NUMBER := 1; BEGIN LOOP DBMS_OUTPUT.PUT_LINE(i); i := i + 1;
+EXIT WHEN i > 5; END LOOP; END; /
+
+B. WHILE LOOP
+
+Repeats while the condition is TRUE.
+
+Syntax: WHILE condition LOOP statements; END LOOP;
+
+Example:
+
+DECLARE i NUMBER := 1; BEGIN WHILE i <= 5 LOOP DBMS_OUTPUT.PUT_LINE(i);
+i := i + 1; END LOOP; END; /
+
+C. FOR LOOP
+
+Repeats for a specified range. The loop variable is managed
+automatically.
+
+Syntax: FOR variable IN start_value..end_value LOOP statements; END
+LOOP;
+
+Example:
+
+BEGIN FOR i IN 1..5 LOOP DBMS_OUTPUT.PUT_LINE(i); END LOOP; END; /
+
+Reverse order:
+
+BEGIN FOR i IN REVERSE 1..5 LOOP DBMS_OUTPUT.PUT_LINE(i); END LOOP; END;
+/
+
+8. SQL COMMANDS INSIDE PL/SQL
+
+SQL statements such as INSERT, UPDATE, DELETE and SELECT can be used in
+PL/SQL.
+
+INSERT example:
+
+BEGIN INSERT INTO student (student_id, student_name) VALUES (1, ‘Anu’);
+
+    COMMIT;
+
+END; /
+
+UPDATE example:
+
+BEGIN UPDATE student SET student_name = ‘Arun’ WHERE student_id = 1;
+
+    COMMIT;
+
+END; /
+
+DELETE example:
+
+BEGIN DELETE FROM student WHERE student_id = 1;
+
+    COMMIT;
+
+END; /
+
+Note: - COMMIT permanently saves the transaction. - ROLLBACK cancels
+uncommitted changes. - Use table and column names that exist in your
+database.
+
+9. SELECT INTO
+
+In PL/SQL, SELECT INTO retrieves a query result and stores it in
+variables.
+
+Syntax: SELECT column_name INTO variable_name FROM table_name WHERE
+condition;
+
+Example:
+
+DECLARE v_name student.student_name%TYPE; BEGIN SELECT student_name INTO
+v_name FROM student WHERE student_id = 1;
+
+    DBMS_OUTPUT.PUT_LINE(v_name);
+
+END; /
+
+Important: - SELECT INTO must return exactly one row. - If no row is
+returned, NO_DATA_FOUND is raised. - If more than one row is returned,
+TOO_MANY_ROWS is raised.
+
+10. %TYPE AND %ROWTYPE
+
+A. %TYPE
+
+Declares a variable with the same data type as a table column or another
+variable.
+
+Example:
+
+DECLARE v_name student.student_name%TYPE; BEGIN SELECT student_name INTO
+v_name FROM student WHERE student_id = 1;
+
+    DBMS_OUTPUT.PUT_LINE(v_name);
+
+END; /
+
+B. %ROWTYPE
+
+Declares a record that can hold an entire row of a table or cursor
+result.
+
+Example:
+
+DECLARE v_student student%ROWTYPE; BEGIN SELECT * INTO v_student FROM
+student WHERE student_id = 1;
+
+    DBMS_OUTPUT.PUT_LINE(v_student.student_name);
+
+END; /
+
+11. EXCEPTION HANDLING
+
+Exceptions are errors that occur during program execution. The EXCEPTION
+section is used to handle them.
+
+Syntax:
+
+BEGIN statements; EXCEPTION WHEN exception_name THEN
+handling_statements; WHEN OTHERS THEN handling_statements; END; /
+
+Common predefined exceptions: - NO_DATA_FOUND : SELECT INTO returns no
+rows. - TOO_MANY_ROWS : SELECT INTO returns more than one row. -
+ZERO_DIVIDE : Division by zero. - DUP_VAL_ON_INDEX : Duplicate value
+violates a unique constraint. - VALUE_ERROR : Conversion or value
+error. - OTHERS : Handles exceptions not handled earlier.
+
+Example:
+
+DECLARE v_result NUMBER; BEGIN v_result := 10 / 0;
+DBMS_OUTPUT.PUT_LINE(v_result); EXCEPTION WHEN ZERO_DIVIDE THEN
+DBMS_OUTPUT.PUT_LINE(‘Cannot divide by zero’); WHEN OTHERS THEN
+DBMS_OUTPUT.PUT_LINE(‘Some other error occurred’); END; /
+
+12. CURSORS
+
+A cursor is a pointer to the result set of a SQL statement. Cursors are
+useful when a query returns multiple rows and each row must be
+processed.
+
+Types: 1. Implicit cursor: Created automatically by Oracle for SQL
+statements. 2. Explicit cursor: Declared by the programmer to process a
+query result.
+
+Explicit cursor steps: 1. DECLARE the cursor. 2. OPEN the cursor. 3.
+FETCH rows from the cursor. 4. CLOSE the cursor.
+
+Example:
+
+DECLARE CURSOR c_student IS SELECT student_id, student_name FROM
+student;
+
+    v_id student.student_id%TYPE;
+    v_name student.student_name%TYPE;
+
+BEGIN OPEN c_student;
+
+    LOOP
+        FETCH c_student INTO v_id, v_name;
+        EXIT WHEN c_student%NOTFOUND;
+
+        DBMS_OUTPUT.PUT_LINE(v_id || ' ' || v_name);
+    END LOOP;
+
+    CLOSE c_student;
+
+END; /
+
+Cursor attributes: - %FOUND : TRUE if the last fetch returned a row. -
+%NOTFOUND : TRUE if the last fetch did not return a row. - %ROWCOUNT :
+Number of rows fetched so far. - %ISOPEN : TRUE if the cursor is open.
+
+13. PROCEDURES
+
+A procedure is a named PL/SQL program unit that performs a task. It can
+accept parameters and can be stored in the database.
+
+Syntax:
+
+CREATE OR REPLACE PROCEDURE procedure_name IS BEGIN statements; END; /
+
+Example:
+
+CREATE OR REPLACE PROCEDURE greet_user IS BEGIN
+DBMS_OUTPUT.PUT_LINE(‘Hello’); END; /
+
+Execute the procedure:
+
+BEGIN greet_user; END; /
+
+Procedure with parameter:
+
+CREATE OR REPLACE PROCEDURE show_message(p_name IN VARCHAR2) IS BEGIN
+DBMS_OUTPUT.PUT_LINE(‘Hello’ || p_name); END; /
+
+Call it:
+
+BEGIN show_message(‘Jiss’); END; /
+
+Parameter modes: - IN : Passes a value into the procedure. This is the
+default mode. - OUT : Returns a value from the procedure. - IN OUT:
+Passes a value in and returns an updated value.
+
+14. FUNCTIONS
+
+A function is a named PL/SQL program unit that must return a value using
+RETURN.
+
+Syntax:
+
+CREATE OR REPLACE FUNCTION function_name RETURN datatype IS BEGIN
+statements; RETURN value; END; /
+
+Example:
+
+CREATE OR REPLACE FUNCTION square_num(p_num NUMBER) RETURN NUMBER IS
+BEGIN RETURN p_num * p_num; END; /
+
+Call it:
+
+BEGIN DBMS_OUTPUT.PUT_LINE(square_num(5)); END; /
+
+Difference between procedure and function: - Procedure performs an
+operation and does not have to return a value. - Function must return a
+value. - A function can often be used in SQL expressions, subject to SQL
+and function restrictions. - Both can accept parameters.
+
+15. TRIGGERS
+
+A trigger is a stored PL/SQL program unit that executes automatically
+when a specified event occurs on a table, view, schema or database.
+
+Common trigger events: - INSERT - UPDATE - DELETE
+
+Example: display a message before inserting a row.
+
+CREATE OR REPLACE TRIGGER trg_before_student_insert BEFORE INSERT ON
+student FOR EACH ROW BEGIN DBMS_OUTPUT.PUT_LINE(‘A student row is being
+inserted’); END; /
+
+Trigger timing: - BEFORE: Executes before the triggering event. - AFTER:
+Executes after the triggering event. - INSTEAD OF: Commonly used with
+views to define how an operation is handled.
+
+FOR EACH ROW creates a row-level trigger. Without it, a DML trigger is
+generally a statement-level trigger.
+
+16. IMPORTANT DIFFERENCES
+
+SQL vs PL/SQL - SQL is a query language used to work with relational
+data. - PL/SQL is Oracle’s procedural extension of SQL. - SQL statements
+generally execute one statement at a time. - PL/SQL groups SQL and
+procedural statements into blocks.
+
+Implicit cursor vs Explicit cursor - Implicit cursor is created
+automatically by Oracle. - Explicit cursor is declared and controlled by
+the programmer.
+
+Procedure vs Function - A procedure does not need to return a value. - A
+function must return a value.
+
+Simple LOOP vs WHILE LOOP vs FOR LOOP - Simple LOOP continues until an
+EXIT statement or EXIT WHEN condition ends it. - WHILE LOOP checks its
+condition before each iteration. - FOR LOOP repeats over a defined
+range.
+
+17. IMPORTANT EXAM QUESTIONS
+
+1.  Define PL/SQL. Explain the structure of a PL/SQL block.
+
+2.  Explain variables and data types in PL/SQL with examples.
+
+3.  Explain IF, IF-ELSE and IF-ELSIF statements.
+
+4.  Explain the different types of loops in PL/SQL.
+
+5.  What is SELECT INTO? Explain with an example.
+
+6.  Explain %TYPE and %ROWTYPE.
+
+7.  What is exception handling? Explain common predefined exceptions.
+
+8.  Define cursor. Explain implicit and explicit cursors.
+
+9.  Explain the steps involved in using an explicit cursor.
+
+10. Define procedure and explain parameter modes.
+
+11. Define function with an example.
+
+12. Differentiate between procedure and function.
+
+13. What is a trigger? Explain trigger types.
+
+14. Differentiate between SQL and PL/SQL.
+
+15. QUICK REVISION
+
+-   PL/SQL = Procedural Language extension to SQL.
+-   BEGIN and END mark the executable block.
+-   DECLARE is optional.
+-   EXCEPTION is optional.
+-   := is the assignment operator.
+-   || joins strings.
+-   DBMS_OUTPUT.PUT_LINE displays output.
+-   SELECT INTO stores query results in variables.
+-   %TYPE refers to a column or variable data type.
+-   %ROWTYPE stores a complete row record.
+-   Cursor processes query results.
+-   Procedure performs a task.
+-   Function returns a value.
+-   Trigger executes automatically after a specified event.
+-   COMMIT saves changes; ROLLBACK cancels uncommitted changes.
+
+END OF NOTE
