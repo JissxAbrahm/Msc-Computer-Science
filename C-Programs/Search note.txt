@@ -1,0 +1,337 @@
+==================================================
+             SEARCHING TECHNIQUES
+==================================================
+
+1. INTRODUCTION
+---------------
+
+Searching is the process of finding a particular element
+(key) in a collection of data.
+
+Types:
+1. Linear Search
+2. Binary Search
+
+
+==================================================
+2. LINEAR SEARCH
+==================================================
+
+DEFINITION:
+Linear Search is a searching technique that checks each
+element one by one until the required element is found
+or the list ends.
+
+WORKING:
+1. Start from the first element.
+2. Compare the element with the search key.
+3. If both are equal, element is found.
+4. Otherwise, move to the next element.
+5. Repeat until the element is found or the array ends.
+
+EXAMPLE:
+
+Array = [10, 25, 30, 45, 50]
+Key   = 45
+
+Comparisons:
+
+10 != 45
+25 != 45
+30 != 45
+45 == 45
+
+Element found at position 4.
+
+ALGORITHM:
+-----------
+LINEAR_SEARCH(A, N, KEY)
+
+1. Start
+2. For i = 0 to N-1
+3.     If A[i] == KEY
+4.         Return i
+5. Return -1
+6. Stop
+
+C PROGRAM:
+----------
+
+#include <stdio.h>
+
+int main()
+{
+    int a[100], n, key, i, found = 0;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > 100)
+    {
+        printf("Invalid size");
+        return 0;
+    }
+
+    printf("Enter elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &key);
+
+    for (i = 0; i < n; i++)
+    {
+        if (a[i] == key)
+        {
+            printf("Element found at position %d", i + 1);
+            found = 1;
+            break;
+        }
+    }
+
+    if (found == 0)
+        printf("Element not found");
+
+    return 0;
+}
+
+TIME COMPLEXITY:
+----------------
+Best Case    : O(1)
+Average Case : O(n)
+Worst Case   : O(n)
+
+Space Complexity: O(1)
+
+ADVANTAGES:
+- Simple and easy to implement.
+- Works with sorted and unsorted arrays.
+- Suitable for small datasets.
+
+DISADVANTAGES:
+- Slow for large datasets.
+- May need to check every element.
+
+
+==================================================
+3. BINARY SEARCH
+==================================================
+
+DEFINITION:
+Binary Search is a searching technique that repeatedly
+divides a sorted array into two halves to find an element.
+
+IMPORTANT:
+The array MUST be sorted before applying Binary Search.
+
+WORKING:
+1. Set low = 0 and high = n-1.
+2. Calculate the middle position.
+3. Compare the middle element with the search key.
+4. If equal, element is found.
+5. If key is smaller, search the left half.
+6. If key is greater, search the right half.
+7. Repeat until found or low > high.
+
+EXAMPLE:
+
+Array = [10, 20, 30, 40, 50, 60, 70]
+Key   = 60
+
+STEP 1:
+
+low = 0
+high = 6
+mid = (0 + 6) / 2 = 3
+
+A[3] = 40
+
+60 > 40
+Search right half.
+
+STEP 2:
+
+low = 4
+high = 6
+mid = (4 + 6) / 2 = 5
+
+A[5] = 60
+
+Element found at position 6.
+
+ALGORITHM:
+-----------
+
+BINARY_SEARCH(A, N, KEY)
+
+1. Start
+2. low = 0
+3. high = N-1
+4. While low <= high
+5.     mid = low + (high-low)/2
+6.     If A[mid] == KEY
+7.         Return mid
+8.     Else if KEY < A[mid]
+9.         high = mid-1
+10.    Else
+11.        low = mid+1
+12. Return -1
+13. Stop
+
+C PROGRAM:
+----------
+
+#include <stdio.h>
+
+int main()
+{
+    int a[100], n, key, low, high, mid, i;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > 100)
+    {
+        printf("Invalid size");
+        return 0;
+    }
+
+    printf("Enter elements in ascending order:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    printf("Enter element to search: ");
+    scanf("%d", &key);
+
+    low = 0;
+    high = n - 1;
+
+    while (low <= high)
+    {
+        mid = low + (high - low) / 2;
+
+        if (a[mid] == key)
+        {
+            printf("Element found at position %d", mid + 1);
+            return 0;
+        }
+        else if (key < a[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    printf("Element not found");
+
+    return 0;
+}
+
+TIME COMPLEXITY:
+----------------
+Best Case    : O(1)
+Average Case : O(log n)
+Worst Case   : O(log n)
+
+Space Complexity: O(1)
+
+ADVANTAGES:
+- Very fast for large sorted datasets.
+- Reduces the search area by half in every iteration.
+
+DISADVANTAGES:
+- Requires sorted data.
+- More complex than Linear Search.
+
+
+==================================================
+4. LINEAR SEARCH VS BINARY SEARCH
+==================================================
+
+Feature          Linear Search     Binary Search
+
+Method           Sequential        Divide into halves
+Data             Any order         Sorted only
+Best Case        O(1)              O(1)
+Average Case     O(n)              O(log n)
+Worst Case       O(n)              O(log n)
+Implementation   Simple            Comparatively complex
+Suitable for     Small datasets    Large sorted datasets
+
+
+==================================================
+5. IMPORTANT FORMULAS
+==================================================
+
+LINEAR SEARCH:
+
+Maximum comparisons = n
+Minimum comparisons = 1
+
+BINARY SEARCH:
+
+mid = low + (high-low)/2
+
+Left half:
+high = mid - 1
+
+Right half:
+low = mid + 1
+
+Loop condition:
+low <= high
+
+
+==================================================
+6. IMPORTANT EXAM QUESTIONS
+==================================================
+
+1. What is searching?
+
+Searching is the process of finding a particular element
+in a collection of data.
+
+2. What is Linear Search?
+
+It checks each element sequentially until the key is
+found or the list ends.
+
+3. What is Binary Search?
+
+It repeatedly divides a sorted array into two halves
+to find the required element.
+
+4. What is the main condition for Binary Search?
+
+The array must be sorted.
+
+5. Which searching technique works on unsorted arrays?
+
+Linear Search.
+
+6. Which is faster for large sorted datasets?
+
+Binary Search.
+
+7. What is the worst-case complexity of Linear Search?
+
+O(n).
+
+8. What is the worst-case complexity of Binary Search?
+
+O(log n).
+
+9. What does -1 indicate?
+
+The search element is not found.
+
+10. Why is Binary Search called Divide and Conquer?
+
+Because it repeatedly divides the search interval into
+smaller halves.
+
+
+==================================================
+                 END OF NOTES
+==================================================
