@@ -1,0 +1,183 @@
+LINKED LIST – DATA STRUCTURES USING C
+
+1. INTRODUCTION
+
+A linked list is a linear data structure in which elements (called
+nodes) are stored dynamically. Nodes are not required to occupy
+consecutive memory locations. Each node contains data and one or more
+pointers that connect it to other nodes.
+
+Advantages: - Dynamic size: nodes can be created and deleted during
+program execution. - Insertion and deletion do not require shifting
+elements. - Memory is allocated as needed.
+
+Disadvantages: - Extra memory is required for pointers. - Random access
+is not possible; nodes must be traversed sequentially. - Pointer
+handling makes implementation more complex.
+
+2. TYPES OF LINKED LIST
+
+A. SINGLY LINKED LIST Each node contains: - data: stores the value. -
+next: stores the address of the next node.
+
+The first node is pointed to by head. The next pointer of the last node
+is NULL.
+
+Diagram: HEAD -> [10 | next] -> [20 | next] -> [30 | NULL]
+
+Node declaration: struct node { int data; struct node *next; };
+
+B. DOUBLY LINKED LIST Each node contains: - prev: address of the
+previous node. - data: stores the value. - next: address of the next
+node.
+
+The first node’s prev is NULL and the last node’s next is NULL.
+Traversal is possible in both forward and backward directions.
+
+Diagram: NULL <- [10] <-> [20] <-> [30] -> NULL
+
+Node declaration: struct node { int data; struct node prev; struct node
+next; };
+
+C. CIRCULAR SINGLY LINKED LIST Each node contains data and a next
+pointer. The last node points back to the first node (head), instead of
+pointing to NULL.
+
+Diagram: HEAD -> [10] -> [20] -> [30] ^ | |_______________|
+
+Node declaration: struct node { int data; struct node *next; };
+
+3. IMPORTANT FUNCTIONS AND POINTERS
+
+-   head: points to the first node.
+-   temp: temporary pointer used to traverse the list.
+-   newnode: pointer to a newly allocated node.
+-   malloc(): dynamically allocates memory for a node.
+-   free(): releases memory occupied by a deleted node.
+-   NULL: indicates that a pointer does not point to a node.
+
+Creating a node: newnode = (struct node *)malloc(sizeof(struct node));
+
+Always check whether malloc() returned NULL in production programs.
+
+4. SINGLY LINKED LIST – BASIC OPERATIONS
+
+INSERT AT END: 1. Create a new node using malloc(). 2. Read the value
+and store it in newnode->data. 3. Set newnode->next = NULL. 4. If head
+is NULL, make head = newnode. 5. Otherwise, traverse until temp->next ==
+NULL. 6. Set temp->next = newnode.
+
+DELETE FROM BEGINNING: 1. If head == NULL, the list is empty. 2.
+Otherwise, store head in temp. 3. Move head to head->next. 4. Print or
+use temp->data. 5. Free temp.
+
+DISPLAY: 1. If head == NULL, display that the list is empty. 2. Set temp
+= head. 3. Repeat while temp != NULL: - Display temp->data. - Move temp
+= temp->next.
+
+5. DOUBLY LINKED LIST – BASIC OPERATIONS
+
+INSERT AT END: 1. Create a new node. 2. Set newnode->data = value. 3.
+Set newnode->next = NULL and newnode->prev = NULL. 4. If head == NULL,
+set head = newnode. 5. Otherwise, traverse to the last node. 6. Set
+temp->next = newnode. 7. Set newnode->prev = temp.
+
+DELETE FROM BEGINNING: 1. If head == NULL, the list is empty. 2. Store
+head in temp. 3. Move head = head->next. 4. If head != NULL, set
+head->prev = NULL. 5. Free temp.
+
+DISPLAY FORWARD: Start at head and move using temp = temp->next until
+temp == NULL.
+
+6. CIRCULAR SINGLY LINKED LIST – BASIC OPERATIONS
+
+INSERT AT END: 1. Create a new node and store the value. 2. If head ==
+NULL: - Set head = newnode. - Set newnode->next = head. 3. Otherwise,
+traverse until temp->next == head. 4. Set temp->next = newnode. 5. Set
+newnode->next = head.
+
+DELETE FROM BEGINNING: 1. If head == NULL, the list is empty. 2. If
+head->next == head, there is only one node: - Free head. - Set head =
+NULL. 3. Otherwise: - Find the last node (last->next == head). - Store
+head in temp. - Move head = head->next. - Set last->next = head. - Free
+temp.
+
+DISPLAY: 1. If head == NULL, the list is empty. 2. Set temp = head. 3.
+Use a do-while loop: - Display temp->data. - Move temp = temp->next. 4.
+Continue while temp != head.
+
+A do-while loop is useful because the first node must be displayed
+before checking whether traversal has returned to head.
+
+7. MENU-DRIVEN PROGRAM STRUCTURE
+
+A menu-driven linked-list program commonly provides:
+
+1.  INSERT
+2.  DELETE
+3.  DISPLAY
+4.  EXIT
+
+Use a while(1) loop to repeatedly show the menu and a switch statement
+to call the selected function.
+
+Example structure:
+
+int main() { int choice;
+
+    while (1)
+    {
+        printf("\\n1. INSERT");
+        printf("\\n2. DELETE");
+        printf("\\n3. DISPLAY");
+        printf("\\n4. EXIT");
+        printf("\\nEnter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1: insert(); break;
+            case 2: delete(); break;
+            case 3: display(); break;
+            case 4: return 0;
+            default: printf("Invalid choice");
+        }
+    }
+
+}
+
+8. COMPARISON OF LINKED LIST TYPES
+
+Feature Singly Doubly Circular Singly Pointers per node 1 2 1 Traversal
+Forward Both directions Forward, loops back Last node’s next NULL NULL
+head First node’s prev Not present NULL Not present Memory use Lower
+Higher Lower
+
+9. TIME COMPLEXITY
+
+For the implementations that insert at the end by traversing and delete
+from the beginning:
+
+Operation Singly Doubly Circular Singly Insert at end O(n) O(n) O(n)
+Delete at beginning O(1) O(1) O(n)* Display O(n) O(n) O(n)
+
+*In the circular singly linked list implementation, deletion from the
+beginning takes O(n) because the last node must be found to reconnect it
+to the new head. Keeping an additional tail pointer can make this O(1).
+
+10. IMPORTANT EXAM POINTS
+
+-   A node is the basic unit of a linked list.
+-   head stores the address of the first node.
+-   In a singly linked list, the last node points to NULL.
+-   In a doubly linked list, each node has prev and next pointers.
+-   In a circular singly linked list, the last node points to head.
+-   malloc() allocates memory dynamically.
+-   free() releases dynamically allocated memory.
+-   Stack-like or array-style indexing is not directly available in a
+    linked list.
+-   Insertion at the end is O(n) in the simple implementations above.
+-   Always handle the empty-list condition.
+-   In a doubly linked list, update both next and prev links correctly.
+-   In a circular list, do not use temp != NULL as the traversal
+    condition.
