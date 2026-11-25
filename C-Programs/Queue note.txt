@@ -1,0 +1,177 @@
+QUEUE – DATA STRUCTURES USING C
+
+1. INTRODUCTION
+
+A queue is a linear data structure that follows the FIFO (First In,
+First Out) principle. The element inserted first is the element removed
+first.
+
+Example: People standing in a line. The person who joins first is served
+first.
+
+QUEUE REPRESENTATION: FRONT -> [10] [20] [30] <- REAR
+
+2. BASIC QUEUE OPERATIONS
+
+1.  ENQUEUE: Insert an element at the REAR of the queue.
+
+2.  DEQUEUE: Remove an element from the FRONT of the queue.
+
+3.  PEEK / FRONT: Display the front element without removing it.
+
+4.  DISPLAY: Display all elements from FRONT to REAR.
+
+5.  EXIT: Terminate the program.
+
+6.  IMPORTANT TERMS
+
+-   FRONT: Points to the first element in the queue.
+-   REAR: Points to the last element in the queue.
+-   Overflow: Attempting to insert into a full queue.
+-   Underflow: Attempting to delete from an empty queue.
+-   FIFO: First In, First Out.
+
+For an array-based queue, initially: front = -1; rear = -1;
+
+4. ARRAY IMPLEMENTATION – MENU-DRIVEN C PROGRAM
+
+#include <stdio.h> #define MAX 100
+
+int queue[MAX]; int front = -1, rear = -1;
+
+void enqueue() { int value;
+
+    if (rear == MAX - 1)
+        printf("Queue Overflow\n");
+    else
+    {
+        printf("Enter value: ");
+        scanf("%d", &value);
+
+        if (front == -1)
+            front = 0;
+
+        rear++;
+        queue[rear] = value;
+
+        printf("%d inserted\n", value);
+    }
+
+}
+
+void dequeue() { if (front == -1 || front > rear) printf(“Queue
+Underflow”); else { printf(“%d deleted”, queue[front]); front++;
+
+        if (front > rear)
+            front = rear = -1;
+    }
+
+}
+
+void peek() { if (front == -1) printf(“Queue is empty”); else
+printf(“Front element: %d”, queue[front]); }
+
+void display() { int i;
+
+    if (front == -1)
+        printf("Queue is empty\n");
+    else
+    {
+        printf("Queue elements: ");
+
+        for (i = front; i <= rear; i++)
+            printf("%d ", queue[i]);
+
+        printf("\n");
+    }
+
+}
+
+int main() { int choice;
+
+    while (1)
+    {
+        printf("\n1. ENQUEUE\n");
+        printf("2. DEQUEUE\n");
+        printf("3. PEEK\n");
+        printf("4. DISPLAY\n");
+        printf("5. EXIT\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1: enqueue(); break;
+            case 2: dequeue(); break;
+            case 3: peek(); break;
+            case 4: display(); break;
+            case 5: return 0;
+            default: printf("Invalid choice\n");
+        }
+    }
+
+}
+
+5. WORKING EXAMPLE
+
+ENQUEUE(10) -> [10] ENQUEUE(20) -> [10] [20] ENQUEUE(30) -> [10] [20]
+[30] DEQUEUE() -> Removes 10 Queue -> [20] [30] PEEK() -> Displays 20
+
+6. TYPES OF QUEUES
+
+A. LINEAR QUEUE - Insertion takes place at REAR. - Deletion takes place
+at FRONT. - In an array implementation, deleted positions at the
+beginning cannot be reused without shifting elements. - This can cause
+false overflow even when some array positions are empty.
+
+B. CIRCULAR QUEUE - The last array position is logically connected to
+the first position. - Empty positions created by deletion can be
+reused. - It avoids the wasted-space problem of a simple linear queue.
+
+Circular queue conditions (array size MAX): - Empty: front == -1 - Full:
+(rear + 1) % MAX == front - Move rear: rear = (rear + 1) % MAX - Move
+front: front = (front + 1) % MAX
+
+C. DEQUE (DOUBLE-ENDED QUEUE) - Insertion and deletion are possible at
+both ends. - Input-restricted deque: insertion at one end, deletion at
+both ends. - Output-restricted deque: deletion at one end, insertion at
+both ends.
+
+D. PRIORITY QUEUE - Each element is assigned a priority. - Removal is
+based on priority rather than only arrival order. - If priorities are
+equal, FIFO order may be followed.
+
+7. LINEAR QUEUE VS CIRCULAR QUEUE
+
+Feature Linear Queue Circular Queue Arrangement Straight Circular
+Insertion REAR REAR Deletion FRONT FRONT Space reuse Limited Reuses
+freed positions Full condition rear == MAX - 1 (rear + 1) % MAX == front
+Space efficiency Less efficient More efficient
+
+8. TIME COMPLEXITY
+
+For the simple array-based linear queue above:
+
+ENQUEUE: O(1) DEQUEUE: O(1) PEEK: O(1) DISPLAY: O(n)
+
+9. APPLICATIONS OF QUEUE
+
+-   CPU process scheduling.
+-   Printer job scheduling.
+-   Breadth First Search (BFS).
+-   Handling requests in servers.
+-   Customer service systems.
+-   Network packet buffering.
+-   Waiting-line simulations.
+
+10. IMPORTANT EXAM POINTS
+
+-   Queue follows FIFO (First In, First Out).
+-   Insertion is called ENQUEUE.
+-   Deletion is called DEQUEUE.
+-   Insertion occurs at REAR.
+-   Deletion occurs at FRONT.
+-   Overflow means the queue is full.
+-   Underflow means the queue is empty.
+-   A circular queue reuses empty array positions.
+-   BFS uses a queue.
