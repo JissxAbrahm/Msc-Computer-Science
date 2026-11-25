@@ -1,0 +1,442 @@
+==================================================
+             SORTING TECHNIQUES
+==================================================
+
+1. INTRODUCTION
+---------------
+
+Sorting is the process of arranging data in a
+particular order.
+
+Types:
+1. Ascending Order
+2. Descending Order
+
+Example:
+
+Unsorted:  5  3  8  4  2
+Ascending: 2  3  4  5  8
+Descending: 8  5  4  3  2
+
+Main Sorting Techniques:
+1. Bubble Sort
+2. Selection Sort
+3. Insertion Sort
+
+
+==================================================
+2. BUBBLE SORT
+==================================================
+
+DEFINITION:
+
+Bubble Sort is a sorting technique that compares
+adjacent elements and swaps them if they are in
+the wrong order.
+
+WORKING:
+
+1. Compare the first two elements.
+2. If the first element is greater, swap them.
+3. Move to the next adjacent pair.
+4. Continue until the end of the array.
+5. Repeat the passes until the array is sorted.
+
+EXAMPLE:
+
+Array: 5  3  8  4  2
+
+PASS 1:
+
+5  3  8  4  2
+3  5  8  4  2
+3  5  4  8  2
+3  5  4  2  8
+
+PASS 2:
+
+3  5  4  2  8
+3  4  5  2  8
+3  4  2  5  8
+
+PASS 3:
+
+3  4  2  5  8
+3  2  4  5  8
+
+PASS 4:
+
+2  3  4  5  8
+
+SORTED ARRAY: 2 3 4 5 8
+
+ALGORITHM:
+
+BUBBLE_SORT(A, N)
+
+1. Start
+2. For i = 0 to N-2
+3.     For j = 0 to N-2-i
+4.         If A[j] > A[j+1]
+5.             Swap A[j] and A[j+1]
+6. Stop
+
+C PROGRAM:
+
+#include <stdio.h>
+
+int main()
+{
+    int a[100], n, i, j, temp;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > 100)
+    {
+        printf("Invalid size");
+        return 0;
+    }
+
+    printf("Enter elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    for (i = 0; i < n-1; i++)
+    {
+        for (j = 0; j < n-1-i; j++)
+        {
+            if (a[j] > a[j+1])
+            {
+                temp = a[j];
+                a[j] = a[j+1];
+                a[j+1] = temp;
+            }
+        }
+    }
+
+    printf("Sorted array: ");
+
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+
+TIME COMPLEXITY:
+
+Best Case:    O(n²)
+Average Case: O(n²)
+Worst Case:   O(n²)
+
+Space Complexity: O(1)
+
+
+==================================================
+3. SELECTION SORT
+==================================================
+
+DEFINITION:
+
+Selection Sort repeatedly selects the smallest
+element from the unsorted part and places it at
+the correct position.
+
+WORKING:
+
+1. Assume the first element is the minimum.
+2. Compare it with the remaining elements.
+3. Find the smallest element.
+4. Swap it with the first unsorted element.
+5. Repeat for the remaining array.
+
+EXAMPLE:
+
+Array: 5  3  8  4  2
+
+PASS 1:
+Smallest = 2
+2  3  8  4  5
+
+PASS 2:
+Smallest = 3
+2  3  8  4  5
+
+PASS 3:
+Smallest = 4
+2  3  4  8  5
+
+PASS 4:
+Smallest = 5
+2  3  4  5  8
+
+SORTED ARRAY: 2 3 4 5 8
+
+ALGORITHM:
+
+SELECTION_SORT(A, N)
+
+1. Start
+2. For i = 0 to N-2
+3.     min = i
+4.     For j = i+1 to N-1
+5.         If A[j] < A[min]
+6.             min = j
+7.     Swap A[i] and A[min]
+8. Stop
+
+C PROGRAM:
+
+#include <stdio.h>
+
+int main()
+{
+    int a[100], n, i, j, min, temp;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > 100)
+    {
+        printf("Invalid size");
+        return 0;
+    }
+
+    printf("Enter elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    for (i = 0; i < n-1; i++)
+    {
+        min = i;
+
+        for (j = i+1; j < n; j++)
+        {
+            if (a[j] < a[min])
+                min = j;
+        }
+
+        temp = a[i];
+        a[i] = a[min];
+        a[min] = temp;
+    }
+
+    printf("Sorted array: ");
+
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+
+TIME COMPLEXITY:
+
+Best Case:    O(n²)
+Average Case: O(n²)
+Worst Case:   O(n²)
+
+Space Complexity: O(1)
+
+
+==================================================
+4. INSERTION SORT
+==================================================
+
+DEFINITION:
+
+Insertion Sort builds a sorted array one element
+at a time by inserting each element into its
+correct position.
+
+WORKING:
+
+1. Consider the first element as sorted.
+2. Take the next element as key.
+3. Compare key with previous elements.
+4. Shift larger elements one position right.
+5. Insert key into its correct position.
+6. Repeat until all elements are sorted.
+
+EXAMPLE:
+
+Array: 5  3  8  4  2
+
+PASS 1:
+Key = 3
+3  5  8  4  2
+
+PASS 2:
+Key = 8
+3  5  8  4  2
+
+PASS 3:
+Key = 4
+3  4  5  8  2
+
+PASS 4:
+Key = 2
+2  3  4  5  8
+
+SORTED ARRAY: 2 3 4 5 8
+
+ALGORITHM:
+
+INSERTION_SORT(A, N)
+
+1. Start
+2. For i = 1 to N-1
+3.     key = A[i]
+4.     j = i-1
+5.     While j >= 0 AND A[j] > key
+6.         A[j+1] = A[j]
+7.         j = j-1
+8.     A[j+1] = key
+9. Stop
+
+C PROGRAM:
+
+#include <stdio.h>
+
+int main()
+{
+    int a[100], n, i, j, key;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > 100)
+    {
+        printf("Invalid size");
+        return 0;
+    }
+
+    printf("Enter elements:\n");
+
+    for (i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    for (i = 1; i < n; i++)
+    {
+        key = a[i];
+        j = i-1;
+
+        while (j >= 0 && a[j] > key)
+        {
+            a[j+1] = a[j];
+            j--;
+        }
+
+        a[j+1] = key;
+    }
+
+    printf("Sorted array: ");
+
+    for (i = 0; i < n; i++)
+        printf("%d ", a[i]);
+
+    return 0;
+}
+
+TIME COMPLEXITY:
+
+Best Case:    O(n)
+Average Case: O(n²)
+Worst Case:   O(n²)
+
+Space Complexity: O(1)
+
+
+==================================================
+5. COMPARISON OF SORTING TECHNIQUES
+==================================================
+
+Feature       Bubble    Selection   Insertion
+
+Method        Swapping  Selecting   Inserting
+Best Case     O(n²)*    O(n²)       O(n)
+Average       O(n²)     O(n²)       O(n²)
+Worst Case    O(n²)     O(n²)       O(n²)
+Space         O(1)      O(1)        O(1)
+Stable        Yes       No          Yes
+In-place      Yes       Yes         Yes
+
+*Standard Bubble Sort without an early-stop
+optimization has O(n²) best-case complexity.
+
+
+==================================================
+6. IMPORTANT DIFFERENCES
+==================================================
+
+BUBBLE SORT:
+- Compares adjacent elements.
+- Swaps elements when they are in the wrong order.
+- Largest element moves to the end in each pass.
+
+SELECTION SORT:
+- Finds the smallest element.
+- Places it in the correct position.
+- Performs at most n-1 swaps.
+
+INSERTION SORT:
+- Takes one element as key.
+- Shifts larger elements to the right.
+- Inserts the key in its correct position.
+
+
+==================================================
+7. IMPORTANT EXAM QUESTIONS
+==================================================
+
+1. What is sorting?
+
+Sorting is the process of arranging data in
+ascending or descending order.
+
+2. What is Bubble Sort?
+
+A technique that compares adjacent elements and
+swaps them if they are in the wrong order.
+
+3. What is Selection Sort?
+
+A technique that repeatedly selects the smallest
+element and places it in the correct position.
+
+4. What is Insertion Sort?
+
+A technique that inserts each element into its
+correct position in the sorted portion.
+
+5. Which sorting technique uses adjacent swapping?
+
+Bubble Sort.
+
+6. Which sorting technique selects the minimum element?
+
+Selection Sort.
+
+7. Which sorting technique uses a key variable?
+
+Insertion Sort.
+
+8. Which sorting technique is suitable for nearly
+sorted data?
+
+Insertion Sort.
+
+9. Which algorithm performs at most n-1 swaps?
+
+Selection Sort.
+
+10. What is the worst-case complexity of all three
+techniques?
+
+O(n²).
+
+
+==================================================
+              END OF NOTES
+==================================================
